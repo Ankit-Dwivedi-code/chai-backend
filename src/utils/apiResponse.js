@@ -7,6 +7,8 @@ class ApiResponse {
     }
 }
 
+export { ApiResponse }
+
 
 
 // const response = new ApiResponse(200, { id: 1, name: "John Doe" });

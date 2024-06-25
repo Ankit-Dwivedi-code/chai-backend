@@ -23,6 +23,7 @@ import userRouter from './routes/user.routes.js'
 
 app.use("/api/v1/users", userRouter)   //use cannot use app.get because router is in seprate file
 
+
 // url look like this http://localhost:8000/api/v1/users/register
 
 export { app } 
