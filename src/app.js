@@ -15,6 +15,10 @@ app.use(express.static("public")) //to serve the files to all just like favicon
 
 app.use(cookieParser())                        //uses of cookieparser
 
+// app.use((req, res, next)=>{
+//     console.log(req.cookies);
+// })
+
 //routes import
 
 import userRouter from './routes/user.routes.js'

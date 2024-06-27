@@ -128,11 +128,17 @@ const loginUser = asyncHandler(async(req, res)=>{
 
     //get data from user
     const {email, username, password} = req.body
+    console.log(email);
 
-    //check for email and password
-    if (!username || !email) {
+    // check for emsil or password
+    if (!email && !password) {
         throw new ApiError(400, "Username or email is required")
     }
+
+    //check for email or password
+    // if (!(username || email)) {
+    //     throw new ApiError(400, "Username or email is required")
+    // }
 
     //check for password empty
 
@@ -160,6 +166,9 @@ const loginUser = asyncHandler(async(req, res)=>{
 
     const {accessToken, refreshToken} =   await generateAccessAndRefreshTokens(user._id)
 
+    // console.log("accessToken : " , accessToken);
+    // console.log("refreshToken : " , refreshToken);
+
 
     //to remove password and refresh token from the response
     const loggedinUser = await User.findById(user._id).select("-password -refreshToken")
@@ -171,13 +180,15 @@ const loginUser = asyncHandler(async(req, res)=>{
 
     return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken",await accessToken, options)
+    .cookie("refreshToken",await refreshToken, options)
     .json(
         new ApiResponse(200,
              {user : loggedinUser, refreshToken, accessToken},
               "User logged in successfully")
     )
+
+
 })
 
 const logoutUser = asyncHandler(async(req, res) =>{

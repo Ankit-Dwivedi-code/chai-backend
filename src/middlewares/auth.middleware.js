@@ -13,6 +13,18 @@ export const verifyJWT = asyncHandler(async(req, _, next)=>{
 
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+
+        // console.log(req.cookies);
+
+        // console.log("req.cookies?.accessToken: ", req.cookies?.accessToken);
+
+        // console.log(req.header("Authorization")?.replace("Bearer ", ""))
+
+        console.log("token", token);
+
+        if (typeof token !== 'string') {
+            throw new ApiError(400, "Invalid token format");
+        }
     
         if(!token){
             throw new ApiError(401, "Unauthorized request")
@@ -20,9 +32,9 @@ export const verifyJWT = asyncHandler(async(req, _, next)=>{
     
         const verifiedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     
-        if (!verifiedToken) {
-            throw new ApiError(401, "Invalid access token")
-        }
+        // if (!verifiedToken) {
+        //     throw new ApiError(401, "Invalid access token")
+        // }
     
         const user = await User.findById(verifiedToken?._id).select("-password -refreshToken")
     
@@ -34,6 +46,6 @@ export const verifyJWT = asyncHandler(async(req, _, next)=>{
 
         next()
     } catch (error) {
-        throw new ApiError(400, "Invalid access token" || error?.message)
+        throw new ApiError(400, error?.message  || "Invalid access token")
     }
 })
