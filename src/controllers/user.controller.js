@@ -126,9 +126,18 @@ const loginUser = asyncHandler(async(req, res)=>{
     //login the user and send response
 
 
+    //get data from user
     const {email, username, password} = req.body
+
+    //check for email and password
     if (!username || !email) {
         throw new ApiError(400, "Username or email is required")
+    }
+
+    //check for password empty
+
+    if(password.trim() === ""){
+        throw new ApiError(400, "Password can't be empty")
     }
 
     const user =   await User.findOne({
