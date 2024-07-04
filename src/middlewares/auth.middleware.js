@@ -20,7 +20,7 @@ export const verifyJWT = asyncHandler(async(req, _, next)=>{
 
         // console.log(req.header("Authorization")?.replace("Bearer ", ""))
 
-        console.log("token", token);
+        // console.log("token", token);
 
         if (typeof token !== 'string') {
             throw new ApiError(400, "Invalid token format");

@@ -4,7 +4,6 @@ import { ApiError } from '../utils/apiError.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import jwt from 'jsonwebtoken'
-import { upload } from '../middlewares/multer.middleware.js';
 import mongoose from 'mongoose';
 
 const generateAccessAndRefreshTokens = async(userId) =>{
@@ -37,8 +36,8 @@ const registerUser = asyncHandler(async(req, res)=>{
 
     //get user details
     const {username, email, fullname, password} =  req.body
-    console.log(email);
-    console.log(req.body);
+    // console.log(email);
+    // console.log(req.body);
     // res.send("Ok tested")
 
     //check for empty fields
@@ -55,7 +54,7 @@ const registerUser = asyncHandler(async(req, res)=>{
     const existedUser = await User.findOne({
         $or : [{email}, {username}]
 })
-    console.log("Existed User : ", existedUser);
+    // console.log("Existed User : ", existedUser);
 
     if(existedUser){
         throw new ApiError(409, "User already exists")
@@ -105,7 +104,7 @@ const registerUser = asyncHandler(async(req, res)=>{
 
     const createdUser = await User.findById(user._id).select("-password -refreshToken") 
 
-    console.log("createdUser : ", createdUser);
+    // console.log("createdUser : ", createdUser);
 
     if(!createdUser){
         throw new ApiError(500, "Something went wrong on creating the user")
@@ -131,7 +130,7 @@ const loginUser = asyncHandler(async(req, res)=>{
 
     //get data from user
     const {email, username, password} = req.body
-    console.log(email);
+    // console.log(email);
 
     // check for emsil or password
     if (!email && !password) {
@@ -481,7 +480,7 @@ const getUserChannelProfile = asyncHandler(async(req, res)=>{
             }
         ])
 
-        console.log("channel" , channel);
+        // console.log("channel" , channel);
 
         if(!channel?.length){
             throw new ApiError(400, "Channel does not exists")
@@ -548,6 +547,43 @@ const getWatchHistory =asyncHandler(async(req, res)=>{
     )
 })
 
+const getTweetOwner = asyncHandler(async(req, res)=>{
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: mongoose.Types.ObjectId(req.user._id)
+            }
+        },
+        {
+            $lookup:{
+                from: "tweets",
+                localField: "_id",
+                foreignField:"owner",
+                as: "owner"
+            }
+        },
+        {
+            $project:{
+                username:1,
+                fullname:1,
+                email:1,
+                avatar:1,
+                coverImage:1
+            }
+        }
+    ])
+
+    if(!user?.length){
+        throw new ApiError(400, "User not found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user[0], "Tweet Owner fetched successfully")
+    )
+})
+
 export {registerUser,
      loginUser, 
      logoutUser,
@@ -558,5 +594,6 @@ export {registerUser,
      updateUserAvatar,
      updateUserCoverImage,
      getUserChannelProfile,
-     getWatchHistory
+     getWatchHistory,
+     getTweetOwner
     }
