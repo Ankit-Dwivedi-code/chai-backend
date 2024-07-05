@@ -37,5 +37,14 @@ import tweetRouter from './routes/tweet.routes.js'
 app.use("/api/v2/user", tweetRouter)
 // url look like this http://localhost:8000/api/v2/user/tweet
 
+//import video router
+
+import videoRouter from './routes/video.routes.js'
+
+//decleration
+
+app.use("/api/v3/user", videoRouter)
+// url look like this http://localhost:8000/api/v3/user/upload-video
+
 
 export { app } 
