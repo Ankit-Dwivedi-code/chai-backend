@@ -22,29 +22,26 @@ app.use(cookieParser())                        //uses of cookieparser
 //routes import
 
 import userRouter from './routes/user.routes.js'
+import tweetRouter from './routes/tweet.routes.js'
+import videoRouter from './routes/video.routes.js'
 
 //routes decleration
 
 app.use("/api/v1/users", userRouter)   //use cannot use app.get because router is in seprate file
+app.use("/api/v1/tweets", tweetRouter)   // url look like this http://localhost:8000/api/v1/tweets/tweet
+app.use("/api/v1/videos", videoRouter)  // url look like this http://localhost:8000/api/v1/videos/upload-video
 
 // url look like this http://localhost:8000/api/v1/users/register
-//import tweet router
 
-import tweetRouter from './routes/tweet.routes.js'
 
-//decleration
-
-app.use("/api/v2/user", tweetRouter)
 // url look like this http://localhost:8000/api/v2/user/tweet
 
 //import video router
 
-import videoRouter from './routes/video.routes.js'
 
 //decleration
 
-app.use("/api/v3/user", videoRouter)
-// url look like this http://localhost:8000/api/v3/user/upload-video
+
 
 
 export { app } 

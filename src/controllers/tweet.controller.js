@@ -3,7 +3,7 @@ import { Tweet } from '../models/tweet.model.js';
 import { ApiError } from '../utils/apiError.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 
-const tweetByUSer = asyncHandler(async(req, res)=>{
+const createTweet = asyncHandler(async(req, res)=>{
     const {content} = req.body
 
     if(!content){
@@ -22,4 +22,4 @@ const tweetByUSer = asyncHandler(async(req, res)=>{
     )
 })
 
-export {tweetByUSer}
+export {createTweet}

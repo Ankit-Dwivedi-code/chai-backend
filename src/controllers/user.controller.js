@@ -197,9 +197,12 @@ const logoutUser = asyncHandler(async(req, res) =>{
     //clear the cookie
     //clear rhe accesstoken
     await User.findByIdAndUpdate(req.user._id, {
-        $set:{
-            refreshToken : undefined
-        },
+        // $set:{
+        //     refreshToken : undefined
+        // },
+        $unset:{
+            refreshToken : 1
+        }
     },
     {
         new : true
@@ -584,6 +587,40 @@ const getTweetOwner = asyncHandler(async(req, res)=>{
     )
 })
 
+const getCommentedUser = asyncHandler(async(req, res)=>{
+    const user = await User.aggregate([
+        {
+            $match :{
+                _id : mongoose.Types.ObjectId(req.user._id)
+            }
+        },
+        {
+            $lookup:{
+                from : "comments",
+                localField: "_id",
+                foreignField:"owner",
+                as : "owner"
+            }
+        },
+        {
+            $project:{
+                username:1,
+                avatar : 1
+            }
+        }
+    ])
+
+    if (!user.length){
+        throw new ApiError(400, "User not found in commented user")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user[0], "User of commented person is fetched successfully")
+    )
+})
+
 export {registerUser,
      loginUser, 
      logoutUser,
@@ -595,5 +632,6 @@ export {registerUser,
      updateUserCoverImage,
      getUserChannelProfile,
      getWatchHistory,
-     getTweetOwner
+     getTweetOwner,
+     getCommentedUser
     }

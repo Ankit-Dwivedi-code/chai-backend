@@ -3,6 +3,7 @@ import {Video} from '../models/video.model.js'
 import { ApiError } from '../utils/apiError.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import mongoose from 'mongoose';
 
 const uploadVideoAndThumbnail = asyncHandler(async(req, res)=>{
 
@@ -51,6 +52,39 @@ const uploadVideoAndThumbnail = asyncHandler(async(req, res)=>{
             new ApiResponse(200, video, "Video uploaded successfully")
         )
 
+})
+
+const getVideoCommented = asyncHandler(async(req, res)=>{
+    const video = await Video.aggregate([
+        {
+            $match:{
+                //match the video
+                 _id : mongoose.Types.ObjectId(req.video._id)
+            }
+        },
+        {
+            $lookup:{
+                from : "comment", //join comment table with video table and get the comments of a particular video.
+                localField: "_id",//get all the fields from the comment collection that is joined to the video collection.
+                foreignField : "video" ,//get all the fields from the video collection that is joined to the comment collection.
+                as : "video" //join comment table with video table and get the comments of a particular video.
+            }
+        },
+        {
+            $project:{
+                _id : 1, //get only _id field from comment collection that is joined to the video collection.
+            }
+        }
+    ])
+    if(!video){
+        throw new ApiError(400, "Video not found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, video, "Id of video fetched")
+    )
 })
 
 export {uploadVideoAndThumbnail}
