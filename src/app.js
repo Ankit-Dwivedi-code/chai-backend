@@ -28,7 +28,7 @@ import videoRouter from './routes/video.routes.js'
 //routes decleration
 
 app.use("/api/v1/users", userRouter)   //use cannot use app.get because router is in seprate file
-app.use("/api/v1/tweets", tweetRouter)   // url look like this http://localhost:8000/api/v1/tweets/tweet
+app.use("/api/v1/tweets", tweetRouter)   // url look like this http://localhost:8000/api/v1/tweets/
 app.use("/api/v1/videos", videoRouter)  // url look like this http://localhost:8000/api/v1/videos/upload-video
 
 // url look like this http://localhost:8000/api/v1/users/register
