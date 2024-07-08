@@ -9,6 +9,28 @@ const getVideoComments = asyncHandler(async (req, res) => {
     const {videoId} = req.params
     const {page = 1, limit = 10} = req.query
 
+    if(!isValidObjectId(videoId)){
+        throw new ApiError(400, "Video Id is not valid")
+    }
+
+    const comments = await Comment.find({video : videoId})
+    // .populate('owner', 'username avatar') //This will populate the owner details
+    .skip((page-1) * limit)
+    .limit(limit)
+    .sort({createdAt : -1}) // Sort by creation date by decending order
+
+    if(!comments){
+        throw new ApiError(404, "No Comments found")
+    }
+
+    // const totalComments = await Comment.countDocuments({ video: videoId });  //this will count the total number of comments
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, {comments, page, limit}, "Comments fetched successfully")
+    )
+
 })
 
 const addComment = asyncHandler(async (req, res) => {
