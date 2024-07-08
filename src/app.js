@@ -27,6 +27,7 @@ import videoRouter from './routes/video.routes.js'
 import subscriptionRouter from "./routes/subscription.routes.js"
 import commentRouter from "./routes/comment.routes.js"
 import playlistRouter from "./routes/playlist.routes.js"
+import likeRouter from "./routes/like.routes.js"
 
 //routes decleration
 
@@ -36,6 +37,7 @@ app.use("/api/v1/videos", videoRouter)  // url look like this http://localhost:8
 app.use("/api/v1/subscriptions", subscriptionRouter) //url look like http://localhost:8000/api/v1/subscriptions/u/
 app.use("/api/v1/comments", commentRouter) //url look like http://localhost:8000/api/v1/comments/
 app.use("/api/v1/playlist", playlistRouter) //url look like http://localhost:8000/api/v1/playlist/
+app.use("/api/v1/likes", likeRouter) //url look like http://localhost:8000/api/v1/likes/
 
 
 
