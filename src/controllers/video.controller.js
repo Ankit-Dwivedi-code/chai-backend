@@ -1,6 +1,6 @@
 import {asyncHandler} from '../utils/asyncHandler.js'
 import {Video} from '../models/video.model.js'
-import { ApiError } from '../utils/apiError.js';
+import { ApiError } from '../utils/apiError.js'
 import { ApiResponse } from '../utils/apiResponse.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import mongoose, { isValidObjectId } from 'mongoose';
@@ -249,4 +249,4 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 })
 
 
-export {publishAVideo,getVideoById, updateVideo, deleteVideo, togglePublishStatus }
+export {publishAVideo,getVideoById, updateVideo, deleteVideo, togglePublishStatus, getAllVideos }

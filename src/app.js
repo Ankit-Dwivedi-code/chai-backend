@@ -25,6 +25,7 @@ import userRouter from './routes/user.routes.js'
 import tweetRouter from './routes/tweet.routes.js'
 import videoRouter from './routes/video.routes.js'
 import subscriptionRouter from "./routes/subscription.routes.js"
+import commentRouter from "./routes/comment.routes.js"
 
 //routes decleration
 
@@ -32,6 +33,7 @@ app.use("/api/v1/users", userRouter)   //use cannot use app.get because router i
 app.use("/api/v1/tweets", tweetRouter)   // url look like this http://localhost:8000/api/v1/tweets/
 app.use("/api/v1/videos", videoRouter)  // url look like this http://localhost:8000/api/v1/videos/upload-video
 app.use("/api/v1/subscriptions", subscriptionRouter) //url look like http://localhost:8000/api/v1/subscriptions/u/
+app.use("/api/v1/comments", commentRouter) //url look like http://localhost:8000/api/v1/comments/
 
 // url look like this http://localhost:8000/api/v1/users/register
 
