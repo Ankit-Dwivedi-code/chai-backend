@@ -28,6 +28,8 @@ import subscriptionRouter from "./routes/subscription.routes.js"
 import commentRouter from "./routes/comment.routes.js"
 import playlistRouter from "./routes/playlist.routes.js"
 import likeRouter from "./routes/like.routes.js"
+import dashboardRouter from "./routes/dashboard.routes.js"
+import healthcheckRouter from "./routes/healthcheck.routes.js"
 
 //routes decleration
 
@@ -38,6 +40,8 @@ app.use("/api/v1/subscriptions", subscriptionRouter) //url look like http://loca
 app.use("/api/v1/comments", commentRouter) //url look like http://localhost:8000/api/v1/comments/
 app.use("/api/v1/playlist", playlistRouter) //url look like http://localhost:8000/api/v1/playlist/
 app.use("/api/v1/likes", likeRouter) //url look like http://localhost:8000/api/v1/likes/
+app.use("/api/v1/dashboard", dashboardRouter) //url look like http://localhost:8000/api/v1/dashboard/
+app.use("/api/v1/healthcheck", healthcheckRouter)//url look like http://localhost:8000/api/v1/healthcheck/
 
 
 
